@@ -33,6 +33,7 @@ class ChatGLMGPULM(BaseLM):
         batch_size=1,
         load_in_8bit: Optional[bool] = False,
         trust_remote_code: Optional[bool] = False,
+        load_in_low_bit='symm_int4'
     ):
         super().__init__()
 
@@ -40,7 +41,7 @@ class ChatGLMGPULM(BaseLM):
         assert isinstance(batch_size, (int,str))
         
         model = AutoModelForCausalLM.from_pretrained(pretrained,
-                                          load_in_4bit=True,
+                                          load_in_low_bit=load_in_low_bit,
                                           optimize_model=True,
                                           trust_remote_code=True,
                                           use_cache=True)
