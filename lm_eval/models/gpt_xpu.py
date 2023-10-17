@@ -24,7 +24,7 @@ def _get_dtype(
 class ChatGLMGPULM(BaseLM):
     def __init__(
         self,
-        device="cuda",
+        device="xpu",
         pretrained="gpt2",
         revision="main",
         low_cpu_mem_usage=None,
@@ -45,8 +45,8 @@ class ChatGLMGPULM(BaseLM):
                                           optimize_model=True,
                                           trust_remote_code=True,
                                           use_cache=True)
-
-        self.model = model.to('xpu')
+        self._device = device
+        self.model = model.to(device)
 
         self.tokenizer = LlamaTokenizer.from_pretrained(pretrained, trust_remote_code=True)
 
@@ -77,7 +77,7 @@ class ChatGLMGPULM(BaseLM):
     @property
     def device(self):
         # TODO: fix multi-gpu
-        return torch.device("cpu")
+        return torch.device(self._device)
 
     def tok_encode(self, string: str):
         input_ids = self.tokenizer.encode(string)
@@ -95,7 +95,7 @@ class ChatGLMGPULM(BaseLM):
         logits returned from the model
         """
         with torch.inference_mode():
-            inps = inps.to('xpu')
+            inps = inps.to(self.device)
             res = self.model(inps)[0]
             return res
 
