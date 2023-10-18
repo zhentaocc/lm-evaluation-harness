@@ -1,5 +1,6 @@
 import torch
 import transformers
+from transformers import BitsAndBytesConfig
 from typing import Optional, Union
 from lm_eval.base import BaseLM
 
@@ -32,6 +33,7 @@ class HFLM(BaseLM):
         load_in_8bit: Optional[bool] = False,
         trust_remote_code: Optional[bool] = False,
         dtype: Optional[Union[str, torch.dtype]] = "auto",
+        bnb_type=None
     ):
         super().__init__()
 
@@ -75,6 +77,9 @@ class HFLM(BaseLM):
                 )
             revision = revision + ("/" + subfolder if subfolder is not None else "")
 
+            # support bitsandbytes nf4
+            if bnb_type=='nf4':
+                bnb_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_quant_type="nf4",bnb_4bit_use_double_quant=True)
             # Initialize new model and tokenizer instances
             self.model = transformers.AutoModelForCausalLM.from_pretrained(
                 pretrained,
@@ -83,6 +88,7 @@ class HFLM(BaseLM):
                 revision=revision,
                 torch_dtype=_get_dtype(dtype),
                 trust_remote_code=trust_remote_code,
+                quantization_config=bnb_config
             ).to(self.device)
             self.tokenizer = transformers.AutoTokenizer.from_pretrained(
                 tokenizer if tokenizer else pretrained,
