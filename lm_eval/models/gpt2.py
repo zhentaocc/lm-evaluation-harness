@@ -78,6 +78,7 @@ class HFLM(BaseLM):
             revision = revision + ("/" + subfolder if subfolder is not None else "")
 
             # support bitsandbytes nf4
+            bnb_config = None
             if bnb_type=='nf4':
                 bnb_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_quant_type="nf4",bnb_4bit_use_double_quant=True)
             # Initialize new model and tokenizer instances
@@ -86,10 +87,13 @@ class HFLM(BaseLM):
                 load_in_8bit=load_in_8bit,
                 low_cpu_mem_usage=low_cpu_mem_usage,
                 revision=revision,
+                device_map={"":self.device},
                 torch_dtype=_get_dtype(dtype),
                 trust_remote_code=trust_remote_code,
                 quantization_config=bnb_config
-            ).to(self.device)
+
+            )
+
             self.tokenizer = transformers.AutoTokenizer.from_pretrained(
                 tokenizer if tokenizer else pretrained,
                 revision=revision,
