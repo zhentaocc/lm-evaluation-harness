@@ -2,7 +2,6 @@ import os
 import multiprocessing
 
 from bigdl.llm.transformers import AutoModel, AutoModelForCausalLM
-import intel_extension_for_pytorch as ipex
 
 import torch
 from typing import Optional, Union
