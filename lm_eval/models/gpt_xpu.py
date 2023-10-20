@@ -38,7 +38,8 @@ class ChatGLMGPULM(BaseLM):
 
         assert isinstance(pretrained, str)
         assert isinstance(batch_size, (int,str))
-        
+        if device == 'xpu':
+            import intel_extension_for_pytorch as ipex
         model = AutoModelForCausalLM.from_pretrained(pretrained,
                                           load_in_low_bit=load_in_low_bit,
                                           optimize_model=True,

@@ -1,3 +1,33 @@
+# How to quickly generate LeaderBoard results
+
+## Environment Setup
+### Install BigDL-LLM & Harness
+Here we take an example of installation steps on CPU, please install `bigdl-llm` according to your platform.
+```shell
+pip install bigdl-llm[all]
+pip install -e .
+```
+### Prepare your datasets and models
+Download your model and datasets to your device.
+
+Currently, you can reuse the datasets in `arda@arda-arc01:/mnt/disk1/leaderboard-acc-test`
+## Examples
+### CPU Usage
+```python
+python llb.py --model llm-xpu --pretrained /path/to/model --precision nf3 int4 nf4 --device cpu --tasks hellaswag arc mmlu truthfulqa --output_dir results/output
+```
+### Intel GPU Usage
+```python
+python llb.py --model llm-xpu --pretrained /path/to/model --precision nf3 int4 nf4 --device xpu --tasks hellaswag arc mmlu truthfulqa --output_dir results/output
+```
+### Reproduce or run on Nvidia GPU
+```python
+# BF16
+python llb.py --model hf-causal --pretrained /path/to/model --precision bf16 --device xpu --tasks hellaswag arc mmlu truthfulqa --output_dir results/output
+# Bitsandbytes NF4
+python llb.py --model hf-causal --pretrained /path/to/model --precision nf4 --device xpu --tasks hellaswag arc mmlu truthfulqa --output_dir results/output
+```
+# Original ReadMe for Harness
 # Language Model Evaluation Harness
 
 ## We're Refactoring LM-Eval!
