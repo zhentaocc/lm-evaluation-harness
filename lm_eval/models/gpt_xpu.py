@@ -45,6 +45,7 @@ class ChatGLMGPULM(BaseLM):
                                           optimize_model=True,
                                           trust_remote_code=True,
                                           use_cache=True)
+        print(model) # print model to check precision
         self._device = device
         self.model = model.to(device)
 

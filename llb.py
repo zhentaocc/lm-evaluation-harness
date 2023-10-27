@@ -16,7 +16,9 @@ prec_to_arg = {
     "llm-xpu": {
         "int4": "load_in_low_bit=sym_int4",
         "nf4": "load_in_low_bit=nf4",
-        "nf3": "load_in_low_bit=nf3"
+        "nf3": "load_in_low_bit=nf3",
+        "fp8": "load_in_low_bit=fp8",
+        "fp4": "load_in_low_bit=fp4"
     },
     "hf-causal": {
         "nf4": "bnb_type=nf4",
@@ -30,12 +32,13 @@ def main():
     parser.add_argument("--pretrained", required=True, type=str)
     parser.add_argument("--precision", required=True, nargs='+', type=str)
     parser.add_argument("--device", required=True, type=str)
+    parser.add_argument("--batch", default=1, type=int)
     parser.add_argument("--tasks", required=True, nargs='+', type=str)
     parser.add_argument("--output_dir", type=str)
     args = parser.parse_args()
     print(args.model)
     print(args.tasks)
-    basic_cmd = "python main.py --model {} --model_args pretrained={},{} --no_cache --device {} --batch_size 2 {} --output_path {} "
+    basic_cmd = "python main.py --model {} --model_args pretrained={},{} --no_cache --device {} --batch_size {} {} --output_path {} "
     os.makedirs(args.output_dir, exist_ok=True)
     index = 1
     total = len(args.precision) * len(args.tasks)
@@ -44,7 +47,8 @@ def main():
         for task in args.tasks:
             output_path = f"{args.model}_{prec}_{args.device}_{task}"
             task_arg = task_map[task]
-            cmd_exec = basic_cmd.format(args.model, args.pretrained, prec_arg, args.device, task_arg, f"{args.output_dir}/{output_path}")
+            cmd_exec = basic_cmd.format(args.model, args.pretrained, prec_arg, args.device, args.batch,
+             task_arg, f"{args.output_dir}/{output_path}")
             print(f"Running job {index}/{total}:\n{cmd_exec}")
             index += 1
             with open(f"{args.output_dir}/log_{output_path}.txt", "w") as f:
