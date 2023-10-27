@@ -80,7 +80,7 @@ class HFLM(BaseLM):
             # support bitsandbytes nf4
             bnb_config = None
             if bnb_type=='nf4':
-                bnb_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_quant_type="nf4",bnb_4bit_use_double_quant=True)
+                bnb_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_quant_type="nf4")
             # Initialize new model and tokenizer instances
             self.model = transformers.AutoModelForCausalLM.from_pretrained(
                 pretrained,
