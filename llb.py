@@ -18,13 +18,17 @@ prec_to_arg = {
         "nf4": "load_in_low_bit=nf4",
         "nf3": "load_in_low_bit=nf3",
         "fp8": "load_in_low_bit=fp8",
-        "fp4": "load_in_low_bit=fp4"
+        "fp4": "load_in_low_bit=fp4",
+        "bf16": "dtype=bfloat16",
+        "fp16": "dtype=float16",
     },
     "hf-causal": {
         "nf4": "bnb_type=nf4",
-        "bf16": ""
+        "bf16": "dtype=bfloat16",
+        "fp16": "dtype=float16",
     }
 }
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -53,9 +57,10 @@ def main():
             index += 1
             with open(f"{args.output_dir}/log_{output_path}.txt", "w") as f:
                 return_code = subprocess.call(cmd_exec, shell=True, stderr=f, stdout=f)
-            if return_code == '0':
+            if return_code == 0:
                 print("Successful")
             else:
                 print("Failed")
+
 
 main()

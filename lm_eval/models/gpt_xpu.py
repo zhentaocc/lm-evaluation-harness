@@ -32,7 +32,8 @@ class ChatGLMGPULM(BaseLM):
         batch_size=1,
         load_in_8bit: Optional[bool] = False,
         trust_remote_code: Optional[bool] = False,
-        load_in_low_bit='symm_int4'
+        load_in_low_bit=None,
+        dtype: Optional[Union[str, torch.dtype]] = "auto",
     ):
         super().__init__()
 
@@ -44,7 +45,8 @@ class ChatGLMGPULM(BaseLM):
                                           load_in_low_bit=load_in_low_bit,
                                           optimize_model=True,
                                           trust_remote_code=True,
-                                          use_cache=True)
+                                          use_cache=True,
+                                          torch_dtype=_get_dtype(dtype))
         print(model) # print model to check precision
         self._device = device
         self.model = model.to(device)
