@@ -6,8 +6,7 @@ Download your model and datasets to your device.
 
 Currently, you can download from FTP Server by:
 ```shell
-export HF_HOME=/hf_home/for/tests
-wget -r -nH ftp://[username]:[password]@aep-008.sh.intel.com:8821/LeaderBoard_Datasets -p $HF_HOME
+wget -r -nH ftp://[username]:[password]@aep-008.sh.intel.com:8821/LeaderBoard_Datasets -p path/to/store/dataset
 wget -r -nH ftp://[username]:[password]@aep-008.sh.intel.com:8821/model -p /path/to/store/model
 ```
 ## Environment Setup
@@ -15,6 +14,8 @@ wget -r -nH ftp://[username]:[password]@aep-008.sh.intel.com:8821/model -p /path
 Make sure env var `HF_HOME` is correctly set to your huggingface home directory. Run [prepare-bigdl-llb-env.sh](./prepare-bigdl-llb-env.sh) to setup your environment.
 ```shell
 # Usage:
+export Prefix=path/to/store/dataset
+export HF_HOME=$Prefix/LeaderBoard_Datasets
 bash prepare-bigdl-llb-env.sh xpu   # for xpu test
 bash prepare-bigdl-llb-env.sh cpu   # for cpu test
 ```
