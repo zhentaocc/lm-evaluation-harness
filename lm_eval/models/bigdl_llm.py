@@ -20,7 +20,7 @@ def _get_dtype(
         _torch_dtype = dtype
     return _torch_dtype
 
-class ChatGLMGPULM(BaseLM):
+class BigDLGPULM(BaseLM):
     def __init__(
         self,
         device="xpu",

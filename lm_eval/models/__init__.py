@@ -1,5 +1,5 @@
 from . import gpt2
-from . import gpt_xpu
+from . import bigdl_llm
 from . import gpt3
 from . import anthropic_llms
 from . import huggingface
@@ -16,7 +16,7 @@ MODEL_REGISTRY = {
     "anthropic": anthropic_llms.AnthropicLM,
     "textsynth": textsynth.TextSynthLM,
     "dummy": dummy.DummyLM,
-    "llm-xpu": gpt_xpu.ChatGLMGPULM
+    "bigdl-llm": bigdl_llm.BigDLGPULM
 }
 
 

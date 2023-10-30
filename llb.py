@@ -13,7 +13,7 @@ task_map = {
 }
 
 prec_to_arg = {
-    "llm-xpu": {
+    "bigdl-llm": {
         "int4": "load_in_low_bit=sym_int4",
         "nf4": "load_in_low_bit=nf4",
         "nf3": "load_in_low_bit=nf3",
