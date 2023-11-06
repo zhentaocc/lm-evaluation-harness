@@ -14,6 +14,7 @@ task_map = {
 
 prec_to_arg = {
     "bigdl-llm": {
+        "mixed_4bit": "load_in_low_bit=mixed_4bit",
         "int4": "load_in_low_bit=sym_int4",
         "nf4": "load_in_low_bit=nf4",
         "nf3": "load_in_low_bit=nf3",
